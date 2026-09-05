@@ -132,7 +132,7 @@ if len(messages) <= 3:
 
 ```sh
 cd learn-claude-code
-python agents/s11_autonomous_agents.py
+go run ./cmd/legacy s11
 ```
 
 1. `Create 3 tasks on the board, then spawn alice and bob. Watch them auto-claim.`

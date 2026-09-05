@@ -202,7 +202,7 @@ complete_task(tests.id)     # ✓ Completed
 
 ```sh
 cd learn-claude-code
-python s10_task_system/code.py
+go run ./s10_task_system
 ```
 
 试试这些 prompt：

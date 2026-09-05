@@ -99,7 +99,7 @@ The loop stays single-threaded. Only subprocess I/O is parallelized.
 
 ```sh
 cd learn-claude-code
-python agents/s08_background_tasks.py
+go run ./cmd/legacy s08
 ```
 
 1. `Run "sleep 5 && echo done" in the background, then create a file while it runs`

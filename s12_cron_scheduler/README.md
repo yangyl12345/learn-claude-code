@@ -121,7 +121,7 @@ Delivery is at least once. If the process exits after the model accepts a prompt
 - The scheduler stops when the Agent process exits. `durable` preserves the job definition only.
 - Restart loads saved jobs but does not replay schedule times missed while the process was down.
 - Scheduled turns run in the queue processor thread. A tool call that needs interactive approval is denied instead of competing with the main terminal for input.
-- Scheduler and queue processor threads start only in the CLI. Importing `code.py` starts no background thread.
+- Scheduler and queue processor threads start only in the CLI. Importing `main.go` starts no background thread.
 
 Use crontab, a systemd timer, or an external scheduler when jobs must run while the Agent is closed.
 
@@ -131,7 +131,7 @@ Use crontab, a systemd timer, or an external scheduler when jobs must run while 
 
 ```sh
 cd learn-claude-code
-python s12_cron_scheduler/code.py
+go run ./s12_cron_scheduler
 ```
 
 Enter these prompts in order:

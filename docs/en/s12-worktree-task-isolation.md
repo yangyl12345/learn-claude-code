@@ -8,7 +8,7 @@
 
 ## Problem
 
-By s11, agents can claim and complete tasks autonomously. But every task runs in one shared directory. Two agents refactoring different modules at the same time will collide: agent A edits `config.py`, agent B edits `config.py`, unstaged changes mix, and neither can roll back cleanly.
+By s11, agents can claim and complete tasks autonomously. But every task runs in one shared directory. Two agents refactoring different modules at the same time will collide: agent A edits `config.go`, agent B edits `config.go`, unstaged changes mix, and neither can roll back cleanly.
 
 The task board tracks *what to do* but has no opinion about *where to do it*. The fix: give each task its own git worktree directory. Tasks manage goals, worktrees manage execution context. Bind them by task ID.
 
@@ -111,7 +111,7 @@ After a crash, state reconstructs from `.tasks/` + `.worktrees/index.json` on di
 
 ```sh
 cd learn-claude-code
-python agents/s12_worktree_task_isolation.py
+go run ./cmd/legacy s12
 ```
 
 1. `Create tasks for backend auth and frontend login page, then list tasks.`

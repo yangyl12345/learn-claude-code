@@ -99,7 +99,7 @@ TOOL_HANDLERS = {
 
 ```sh
 cd learn-claude-code
-python agents/s05_skill_loading.py
+go run ./cmd/legacy s05
 ```
 
 1. `What skills are available?`

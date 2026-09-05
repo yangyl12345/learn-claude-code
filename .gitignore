@@ -200,6 +200,8 @@ cython_debug/
 .mailboxes/
 .worktrees/
 .scheduled_tasks.json
+# Go/local runtime state
+go.work
 
 # Accidental root npm lockfile; web/package-lock.json is tracked.
 /package-lock.json

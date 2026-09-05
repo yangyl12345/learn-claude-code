@@ -231,9 +231,9 @@ s16 does not replace the main loop. It exposes `Workflow` at the tool layer and 
 ## Try It
 
 ```bash
-python s16_workflow_runtime/code.py          # Both the main model and Workflow agents use the real API
-python s16_workflow_runtime/code.py demo     # Deterministic review-changes fixture and event stream
-python s16_workflow_runtime/code.py resume   # Resume by the last runId; every agent() hits the journal cache
+go run ./s16_workflow_runtime          # Both the main model and Workflow agents use the real API
+go run ./s16_workflow_runtime demo     # Deterministic review-changes fixture and event stream
+go run ./s16_workflow_runtime resume   # Resume by the last runId; every agent() hits the journal cache
 ```
 
 In the default command, ask the model to read the changes, place that text in `args.changes`, and run the saved `review-changes` workflow. Both the main model and workflow agents use the real API. The `demo` command uses fixed runner data so lifecycle and resume behavior can be observed repeatedly. A resumed demo reports `agents=0 tokens=0` when every call hits the cache.

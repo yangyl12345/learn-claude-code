@@ -86,11 +86,11 @@ Subagent 可能跑了 30+ 次工具调用, 但整个消息历史直接丢弃。�
 
 ```sh
 cd learn-claude-code
-python agents/s04_subagent.py
+go run ./cmd/legacy s04
 ```
 
 试试这些 prompt (英文 prompt 对 LLM 效果更好, 也可以用中文):
 
 1. `Use a subtask to find what testing framework this project uses`
-2. `Delegate: read all .py files and summarize what each one does`
+2. `Delegate: read all .go files and summarize what each one does`
 3. `Use a task to create a new module, then verify it from here`

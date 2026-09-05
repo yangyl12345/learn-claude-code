@@ -10,7 +10,7 @@
 
 ## 課題
 
-これまでの基本ツールは `code.py` に直接書かれている。documentation system と deployment platform を接続するために `search_docs`、`deploy_status`、`trigger_deploy` を追加することはできるが、service が増えるたびに tool definition、parameter schema、call handler を追加する必要がある。
+これまでの基本ツールは `main.go` に直接書かれている。documentation system と deployment platform を接続するために `search_docs`、`deploy_status`、`trigger_deploy` を追加することはできるが、service が増えるたびに tool definition、parameter schema、call handler を追加する必要がある。
 
 MCP はこの責務を分ける。server は tool list と invocation endpoint を提供する。Harness は接続、model-facing name、permission check を担当し、発見した tool を model に渡す。
 
@@ -159,7 +159,7 @@ lesson script を終了せず、model は次の turn で argument を修正で�
 | コンポーネント | s04 | s14 |
 |---|---|---|
 | 基本ツール | 5 つの固定ツール | 変更なし |
-| ツールソース | `code.py` 内の定義 | 基本ツールと発見した MCP tool |
+| ツールソース | `main.go` 内の定義 | 基本ツールと発見した MCP tool |
 | ツールプール | 固定 `TOOLS` | 各 turn に `assemble_tool_pool()` で組み立て |
 | 外部ツール名 | なし | `mcp__{server}__{tool}` |
 | Permission | Shell と path check | host-side MCP policy を追加 |
@@ -173,7 +173,7 @@ lesson script を終了せず、model は次の turn で argument を修正で�
 
 ```sh
 cd learn-claude-code
-python s14_mcp_plugin/code.py
+go run ./s14_mcp_plugin
 ```
 
 入力：

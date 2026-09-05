@@ -422,7 +422,7 @@ The terminal exposes the user request, Lead's proposal, task state, claims, sele
 
 ```sh
 cd learn-claude-code
-python s13_agent_teams/code.py
+go run ./s13_agent_teams
 ```
 
 Start with an ordinary request:
@@ -446,7 +446,7 @@ Watch `.tasks/` move from `pending` to `in_progress` and `completed`, `.mailboxe
 
 ## What's Next
 
-The Lead and its teammates can only call tools defined directly in `code.py`. Connecting Jira, a deployment platform, or a knowledge base still requires separate tool schemas and handlers for each external system. Changes to those external tools also require changes to the course code.
+The Lead and its teammates can only call tools defined directly in `main.go`. Connecting Jira, a deployment platform, or a knowledge base still requires separate tool schemas and handlers for each external system. Changes to those external tools also require changes to the course code.
 
 s14 MCP Tools → Connect external services at runtime through one discovery and invocation protocol, then add their tools to the tool pool.
 

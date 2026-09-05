@@ -26,7 +26,7 @@
     {
       "type": "tool_result",
       "toolName": "compact",
-      "content": "Summary: user asked for parser refactor; files inspected: cli.py, parser.py; open task: add test.",
+      "content": "Summary: user asked for parser refactor; files inspected: cli.go, parser.go; open task: add test.",
       "annotation": "The compacted summary replaces older context while preserving task-relevant facts."
     }
   ]

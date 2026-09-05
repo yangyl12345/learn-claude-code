@@ -11,7 +11,7 @@
 
 ## The Problem
 
-You ask the model: "List the files in my directory and run XXX.py."
+You ask the model: "List the files in my directory and run XXX.go."
 
 The model can output a bash command, but once it's done outputting, it stops — it won't execute the command on its own, and it won't keep reasoning based on the result.
 
@@ -124,20 +124,20 @@ Just over 30 lines — that's the minimal runnable agent harness kernel. It's no
 **Setup** (first run):
 
 ```sh
-pip install -r requirements.txt
+go mod download
 cp .env.example .env
-# Edit .env, fill in ANTHROPIC_API_KEY and MODEL_ID
+# Edit .env, fill in OPENAI_API_KEY and OPENAI_MODEL
 ```
 
 **Run**:
 
 ```sh
-python s01_agent_loop/code.py
+go run ./s01_agent_loop
 ```
 
 Try these prompts:
 
-1. `Create a file called hello.py that prints "Hello, World!"`
+1. `Create a file called hello.go that prints "Hello, World!"`
 2. `List all Python files in this directory`
 3. `What is the current git branch?`
 

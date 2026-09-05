@@ -90,12 +90,12 @@ for block in response.content:
 
 ```sh
 cd learn-claude-code
-python agents/s02_tool_use.py
+go run ./cmd/legacy s02
 ```
 
 试试这些 prompt (英文 prompt 对 LLM 效果更好, 也可以用中文):
 
-1. `Read the file requirements.txt`
-2. `Create a file called greet.py with a greet(name) function`
-3. `Edit greet.py to add a docstring to the function`
-4. `Read greet.py to verify the edit worked`
+1. `Read the file go.mod`
+2. `Create a file called greet.go with a greet(name) function`
+3. `Edit greet.go to add a docstring to the function`
+4. `Read greet.go to verify the edit worked`

@@ -121,7 +121,7 @@ for job in fired:
 - Agent プロセスが終了すると scheduler thread も停止する。`durable` が保持するのはジョブ定義だけである。
 - 再起動時にジョブを復元するが、停止中に過ぎた実行時刻は補わない。
 - 定時ターンは queue processor thread で動く。対話的な許可が必要な tool call は拒否し、main terminal から同時に入力を読まない。
-- scheduler と queue processor の thread は CLI 実行時だけ開始する。`code.py` の import では background thread を起動しない。
+- scheduler と queue processor の thread は CLI 実行時だけ開始する。`main.go` の import では background thread を起動しない。
 
 Agent が閉じている間も実行する必要がある場合は、crontab、systemd timer、外部 scheduler を使う。
 
@@ -131,7 +131,7 @@ Agent が閉じている間も実行する必要がある場合は、crontab、s
 
 ```sh
 cd learn-claude-code
-python s12_cron_scheduler/code.py
+go run ./s12_cron_scheduler
 ```
 
 次の prompt を順に入力できる。

@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import { execFileSync } from "child_process";
 import type {
   AgentVersion,
   VersionDiff,
@@ -16,6 +17,28 @@ const LEGACY_DOCS_DIR = path.join(REPO_ROOT, "docs");
 const OUT_DIR = path.join(WEB_DIR, "src", "data", "generated");
 const PUBLIC_DIR = path.join(WEB_DIR, "public");
 const COURSE_ASSETS_DIR = path.join(PUBLIC_DIR, "course-assets");
+
+// 课程入口只负责组装 runtime，工具定义位于 internal/。这张显式映射让
+// 教学站仍能展示每一课新增的能力，而不要求重复扫描共享 Go 包。
+const GO_LESSON_TOOLS: Record<string, string[]> = {
+  s01: ["bash"],
+  s02: ["bash", "read_file", "write_file", "edit_file", "glob"],
+  s03: ["bash", "read_file", "write_file", "edit_file", "glob", "permission"],
+  s04: ["bash", "read_file", "write_file", "edit_file", "glob", "hooks"],
+  s05: ["bash", "read_file", "write_file", "edit_file", "glob", "todo_write"],
+  s06: ["bash", "read_file", "write_file", "edit_file", "glob", "task"],
+  s07: ["bash", "read_file", "write_file", "edit_file", "glob", "load_skill"],
+  s08: ["bash", "read_file", "write_file", "edit_file", "glob", "compact"],
+  s09: ["bash", "read_file", "write_file", "edit_file", "glob", "memory"],
+  s10: ["bash", "read_file", "write_file", "edit_file", "glob", "create_task", "update_task", "list_tasks", "claim_task", "complete_task"],
+  s11: ["bash", "read_file", "write_file", "edit_file", "glob", "background"],
+  s12: ["bash", "schedule_cron", "list_crons", "cancel_cron"],
+  s13: ["bash", "task", "spawn_teammate", "send_message", "request_plan", "review_plan", "request_shutdown", "create_worktree"],
+  s14: ["bash", "connect_mcp", "mcp__docs__search", "mcp__docs__get_version"],
+  s15: ["bash", "memory", "skills", "tasks", "teams", "cron", "background", "MCP", "hooks", "compact"],
+  s16: ["agent", "parallel", "pipeline", "snapshot", "resume"],
+  s17: ["bash", "goal", "evaluator"],
+};
 
 type Locale = "en" | "zh" | "ja";
 
@@ -50,7 +73,7 @@ function listRootChapters(): ChapterSource[] {
       const id = dirToVersionId(dirName);
       if (!id) return null;
       const dirPath = path.join(REPO_ROOT, dirName);
-      const codePath = path.join(dirPath, "code.py");
+      const codePath = path.join(dirPath, "main.go");
       if (!fs.existsSync(codePath)) return null;
       return { id, dirName, dirPath, codePath };
     })
@@ -61,7 +84,7 @@ function extractClasses(
   lines: string[]
 ): { name: string; startLine: number; endLine: number }[] {
   const classes: { name: string; startLine: number; endLine: number }[] = [];
-  const classPattern = /^class\s+(\w+)/;
+  const classPattern = /^type\s+(\w+)\s+struct/;
 
   for (let i = 0; i < lines.length; i++) {
     const match = lines[i].match(classPattern);
@@ -72,8 +95,8 @@ function extractClasses(
     let endLine = lines.length;
     for (let j = i + 1; j < lines.length; j++) {
       if (
-        lines[j].match(/^class\s/) ||
-        lines[j].match(/^def\s/) ||
+        lines[j].match(/^type\s+\w+\s+struct/) ||
+        lines[j].match(/^func\s/) ||
         (lines[j].match(/^\S/) &&
           lines[j].trim() !== "" &&
           !lines[j].startsWith("#") &&
@@ -93,14 +116,14 @@ function extractFunctions(
   lines: string[]
 ): { name: string; signature: string; startLine: number }[] {
   const functions: { name: string; signature: string; startLine: number }[] = [];
-  const funcPattern = /^(async\s+)?def\s+(\w+)\((.*?)\)/;
+  const funcPattern = /^func\s+(?:\([^)]*\)\s+)?(\w+)\s*\((.*?)\)/;
 
   for (let i = 0; i < lines.length; i++) {
     const match = lines[i].match(funcPattern);
     if (!match) continue;
     functions.push({
-      name: match[2],
-      signature: `${match[1] ?? ""}def ${match[2]}(${match[3]})`,
+      name: match[1],
+      signature: `func ${match[1]}(${match[2]})`,
       startLine: i + 1,
     });
   }
@@ -162,17 +185,11 @@ function assignmentBody(source: string, openIndex: number): string {
 }
 
 function extractTools(source: string): string[] {
-  const assignmentPattern = /^(?:TOOLS|BASE_TOOLS|BUILTIN_TOOLS|SUB_TOOLS|TASK_TOOL|WORKFLOW_TOOL)\s*=\s*([\[{])/gm;
-  const toolPattern = /"name"\s*:\s*"([\w-]+)"/g;
+  const toolPattern = /(?:Name|name)\s*:\s*"([\w-]+)"|"name"\s*:\s*"([\w-]+)"/g;
   const tools = new Set<string>();
-  let assignment;
-  while ((assignment = assignmentPattern.exec(source)) !== null) {
-    const openIndex = assignment.index + assignment[0].lastIndexOf(assignment[1]);
-    const body = assignmentBody(source, openIndex);
-    let tool;
-    while ((tool = toolPattern.exec(body)) !== null) {
-      tools.add(tool[1]);
-    }
+  let tool;
+  while ((tool = toolPattern.exec(source)) !== null) {
+    tools.add(tool[1] ?? tool[2]);
   }
   return Array.from(tools);
 }
@@ -275,7 +292,7 @@ function buildRootVersions(chapters: ChapterSource[]): AgentVersion[] {
     const source = readText(chapter.codePath);
     const lines = source.split("\n");
     const meta = VERSION_META[chapter.id];
-    const localTools = extractTools(source);
+    const localTools = GO_LESSON_TOOLS[chapter.id] ?? extractTools(source);
     const inheritedId = source.match(/^INHERITS_TOOLS_FROM\s*=\s*"(s\d{2})"/m)?.[1];
     const inheritedTools = inheritedId
       ? versions.find((version) => version.id === inheritedId)?.tools ?? []
@@ -283,7 +300,7 @@ function buildRootVersions(chapters: ChapterSource[]): AgentVersion[] {
 
     versions.push({
       id: chapter.id,
-      filename: `${chapter.dirName}/code.py`,
+      filename: `${chapter.dirName}/main.go`,
       title: meta?.title ?? chapter.id,
       subtitle: meta?.subtitle ?? "",
       loc: countLoc(lines),
@@ -291,7 +308,11 @@ function buildRootVersions(chapters: ChapterSource[]): AgentVersion[] {
       newTools: [] as string[],
       coreAddition: meta?.coreAddition ?? "",
       keyInsight: meta?.keyInsight ?? "",
-      classes: extractClasses(lines),
+      // 每个课程入口是 main package，具体 runtime 类型位于 internal/。
+      // 用入口声明作为教学站的稳定节点，避免空数组被 TypeScript 推断成 never[]。
+      classes: extractClasses(lines).length > 0
+        ? extractClasses(lines)
+        : [{ name: "GoLessonEntrypoint", startLine: 1, endLine: lines.length }],
       functions: extractFunctions(lines),
       layer: meta?.layer ?? "tools",
       source,
@@ -444,6 +465,13 @@ function main() {
   console.log(`  Repo root: ${REPO_ROOT}`);
 
   cleanCourseAssets();
+
+  // Go generator 是课程元数据的权威来源；本脚本继续负责 Markdown、SVG
+  // 和前端兼容字段的拼装，以保持现有教学站交互不变。
+  execFileSync("go", ["run", "./cmd/coursegen", "--repo-root", REPO_ROOT, "--output", OUT_DIR], {
+    cwd: REPO_ROOT,
+    stdio: "inherit",
+  });
 
   const rootChapters = listRootChapters();
   const useRootTrack = rootChapters.length > 0;

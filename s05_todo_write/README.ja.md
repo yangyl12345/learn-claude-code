@@ -126,13 +126,13 @@ Agent がタスクを受け取った後の典型的な流れ：まず `todo_writ
 
 ```sh
 cd learn-claude-code
-python s05_todo_write/code.py
+go run ./s05_todo_write
 ```
 
 以下のプロンプトを試してみよう：
 
-1. `Refactor s05_todo_write/example/hello.py: add type hints, docstrings, and a main guard`（まず 3 手順を列挙してから実行するはず）
-2. `Create a Python package under s05_todo_write/example/demo_pkg with __init__.py, utils.py, and tests/test_utils.py`
+1. `Refactor s05_todo_write/example/hello.go: add type hints, docstrings, and a main guard`（まず 3 手順を列挙してから実行するはず）
+2. `Create a Python package under s05_todo_write/example/demo_pkg with __init__.go, utils.go, and tests/test_utils.go`
 3. `Review Python files under s05_todo_write/example and fix any style issues`
 
 観察のポイント：最初のツール呼び出しは `todo_write` か？ TODO は何手順列挙されたか？ 実行中にステータスが `pending` から `in_progress` / `completed` に変わったか？

@@ -99,7 +99,7 @@ TOOL_HANDLERS = {
 
 ```sh
 cd learn-claude-code
-python agents/s05_skill_loading.py
+go run ./cmd/legacy s05
 ```
 
 试试这些 prompt (英文 prompt 对 LLM 效果更好, 也可以用中文):

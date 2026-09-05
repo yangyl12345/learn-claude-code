@@ -202,7 +202,7 @@ Each `create_task` writes a JSON file; `update_task`, `claim_task`, and `complet
 
 ```sh
 cd learn-claude-code
-python s10_task_system/code.py
+go run ./s10_task_system
 ```
 
 Try these prompts:

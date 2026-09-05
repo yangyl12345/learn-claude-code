@@ -109,12 +109,12 @@ The pattern is universal. Only the capabilities change.
 - `references/agent-philosophy.md` - Deep dive into why agents work
 
 **Implementation**:
-- `references/minimal-agent.py` - Complete working agent (~80 lines)
-- `references/tool-templates.py` - Capability definitions
-- `references/subagent-pattern.py` - Context isolation
+- `internal/agent/agent.go` - Complete Go agent loop
+- `internal/tools/base.go` - Go tool definitions and handlers
+- `internal/ai/client.go` - OpenAI Responses API adapter
 
 **Scaffolding**:
-- `scripts/init_agent.py` - Generate new agent projects
+- `cmd/coursegen/main.go` - Go course metadata generator
 
 ## The Agent Mindset
 

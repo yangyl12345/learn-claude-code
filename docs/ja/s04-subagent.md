@@ -86,9 +86,9 @@ def run_subagent(prompt: str) -> str:
 
 ```sh
 cd learn-claude-code
-python agents/s04_subagent.py
+go run ./cmd/legacy s04
 ```
 
 1. `Use a subtask to find what testing framework this project uses`
-2. `Delegate: read all .py files and summarize what each one does`
+2. `Delegate: read all .go files and summarize what each one does`
 3. `Use a task to create a new module, then verify it from here`

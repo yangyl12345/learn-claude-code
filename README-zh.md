@@ -2,6 +2,15 @@
 
 [English](./README.md) | [中文](./README-zh.md) | [日本語](./README-ja.md)
 
+## Go + OpenAI 迁移版
+
+本分支在保留原课程递进结构的基础上，提供 Go 唯一可运行实现，并使用
+OpenAI Responses API 的 `function_call` / `function_call_output` 流程。
+课程入口统一为 `go run ./sXX_xxx`，公共 runtime 位于 `internal/`。
+
+来源说明：本项目基于 [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code)
+的教程结构和 MIT 许可内容进行 Go/OpenAI 迁移；原项目许可证仍见 [LICENSE](./LICENSE)。
+
 ## Agency 来自模型，Agent 产品 = 模型 + Harness
 
 在讨论代码之前，先把一件事说清楚。
@@ -237,8 +246,8 @@ def agent_loop(messages):
 本仓库现在同时保留两条教程线：
 
 - **新版主线：根目录 `s01-s17`**
-  根目录下的 `s01_*` 到 `s17_*` 是新的主版本，也是当前推荐阅读路径。每章包含默认英文 README、中文/日文译本、可运行的 `code.py`，以及必要的图示。
-- **旧版过渡：`docs/`、`agents/`**
+  根目录下的 `s01_*` 到 `s17_*` 是新的主版本，也是当前推荐阅读路径。每章包含默认英文 README、中文/日文译本、可运行的 `main.go`，以及必要的图示。
+- **旧版过渡：`docs/`、`internal/`**
   这些仍保留旧 12 章体系，暂时用于已有读者和旧链接过渡。
 
 新读者请从根目录 `s01_agent_loop/` 读到 `s17_goal_loop/`。旧版章节号和新版不完全一致，不要混用章节号。
@@ -272,20 +281,20 @@ def agent_loop(messages):
 ```sh
 git clone https://github.com/shareAI-lab/learn-claude-code
 cd learn-claude-code
-pip install -r requirements.txt
-cp .env.example .env   # 编辑 .env 填入你的 ANTHROPIC_API_KEY
+go mod download
+cp .env.example .env   # 编辑 .env 填入 OPENAI_API_KEY 和 OPENAI_MODEL
 
-python s01_agent_loop/code.py        # 起点 — 一个循环 + bash
-python s08_context_compact/code.py    # 上下文压缩（复杂章）
-python s17_goal_loop/code.py          # 终点章：用目标闭合循环
+go run ./s01_agent_loop        # 起点 — 一个循环 + bash
+go run ./s08_context_compact   # 上下文压缩（复杂章）
+go run ./s17_goal_loop --demo  # 终点章：离线演示目标闭环
 ```
 
 ### 旧版 12 章过渡线
 
 ```sh
-python agents/s01_agent_loop.py
-python agents/s12_worktree_task_isolation.py
-python agents/s_full.py
+go run ./cmd/legacy s01
+go run ./cmd/legacy s12
+go run ./cmd/legacy full
 ```
 
 ### Web 平台
@@ -384,7 +393,7 @@ s08_context_compact/
   README.md              # 英文，默认章节 README
   README.zh.md           # 中文译本
   README.ja.md           # 日文译本
-  code.py                # 独立可运行的实现
+  main.go                # 独立可运行的实现
   images/                # SVG 图示（需要时）
 ```
 
@@ -402,7 +411,7 @@ learn-claude-code/
     README.md              #   默认英文文档（完整叙事）
     README.zh.md           #   中文译本
     README.ja.md           #   日文译本
-    code.py                #   独立可运行代码
+    main.go                #   独立可运行代码
     images/                #   SVG 流程图
   s02_tool_use/
   ...
@@ -410,7 +419,7 @@ learn-claude-code/
   s15_integrated_harness/
   s16_workflow_runtime/
   s17_goal_loop/           # 终点章
-  agents/                  # 旧 12 章可运行副本 + s_full.py
+  internal/                  # 旧 12 章可运行副本 + s_full.go
   skills/                  # s07 使用的 skill 文件
   docs/                    # 旧 12 章文档，过渡期保留
   web/                     # 从根目录课程生成

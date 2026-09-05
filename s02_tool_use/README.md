@@ -11,7 +11,7 @@ s01 → `s02` → [s03](../s03_permission/) → s04 → ... → s16 → s17
 
 ## Only One Tool: Bash
 
-The s01 Agent has only one tool: bash. To read a file, `cat`; to write, `echo "..." > file.py`; to edit, `sed`.
+The s01 Agent has only one tool: bash. To read a file, `cat`; to write, `echo "..." > file.go`; to edit, `sed`.
 
 The model thinks "read this file" but has to spell out `cat path/to/file`. An extra layer of translation that wastes tokens and invites errors.
 
@@ -108,7 +108,7 @@ Adding a tool = one entry in `TOOLS` array + one line in `TOOL_HANDLERS` dict. T
 
 ## Multiple Tool Calls
 
-The model often returns multiple tool_use calls at once — "read a.py and b.py, then list all .py files".
+The model often returns multiple tool_use calls at once — "read a.go and b.go, then list all .go files".
 
 Calls are executed one by one in their original `response.content` order.
 
@@ -140,15 +140,15 @@ Calls are executed one by one in their original `response.content` order.
 
 ```sh
 cd learn-claude-code
-python s02_tool_use/code.py
+go run ./s02_tool_use
 ```
 
 Try these prompts:
 
 1. `Read the file README.md and tell me what this project is about`
-2. `Create a file called test.py that prints "hello", then read it back`
+2. `Create a file called test.go that prints "hello", then read it back`
 3. `Find all Python files in this directory`
-4. `Read both README.md and requirements.txt, then create a summary file`
+4. `Read both README.md and go.mod, then create a summary file`
 
 What to watch for: When does the model call just one tool, and when does it call multiple at once? Are multiple tool calls executed in the correct order?
 

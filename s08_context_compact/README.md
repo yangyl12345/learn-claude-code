@@ -300,7 +300,7 @@ This leaves no orphaned tool result. It also preserves the record of a file writ
 
 ```bash
 cd learn-claude-code
-python s08_context_compact/code.py
+go run ./s08_context_compact
 ```
 
 ### Experiment 1: Replace Earlier Results
@@ -324,7 +324,7 @@ When the file exceeds the per-turn budget, the task can still finish and the com
 ### Experiment 3: Trigger an Automatic Summary
 
 ```text
-Compare s08_context_compact/code.py with s09_memory/code.py.
+Compare s08_context_compact/main.go with s09_memory/main.go.
 Explain how they manage current context and persistent memory.
 ```
 

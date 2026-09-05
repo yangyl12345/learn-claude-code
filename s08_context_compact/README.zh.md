@@ -300,7 +300,7 @@ if compact_requested:
 
 ```bash
 cd learn-claude-code
-python s08_context_compact/code.py
+go run ./s08_context_compact
 ```
 
 ### 实验一：较早的结果被替换
@@ -324,7 +324,7 @@ python s08_context_compact/code.py
 ### 实验三：自动摘要
 
 ```text
-请比较 s08_context_compact/code.py 和 s09_memory/code.py，
+请比较 s08_context_compact/main.go 和 s09_memory/main.go，
 说明它们分别怎样管理当前上下文和持久记忆。
 ```
 

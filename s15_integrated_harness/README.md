@@ -75,7 +75,7 @@ The loop keeps the same structure: call the model, check whether the response co
 
 ---
 
-## What code.py Contains
+## What main.go Contains
 
 ### Tools and Dispatch
 
@@ -214,7 +214,7 @@ MCP owns external capability:
 
 ```sh
 cd learn-claude-code
-python s15_integrated_harness/code.py
+go run ./s15_integrated_harness
 ```
 
 Try:

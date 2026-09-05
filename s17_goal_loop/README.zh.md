@@ -108,7 +108,7 @@ Goal Loop 不是测试框架。真正的验证仍然由工具执行，它只负�
 如果想限制自动执行轮数，使用主循环的全局限制，而不是给 Goal 偷偷加一个固定预算：
 
 ```bash
-MAX_TURNS=20 python s17_goal_loop/code.py \
+MAX_TURNS=20 go run ./s17_goal_loop \
   "/goal 修复类型错误，直到 npm run typecheck 退出码为 0"
 ```
 
@@ -194,32 +194,32 @@ return SessionResult(text=text, status=decision.action)
 先安装依赖并准备 `.env`：
 
 ```bash
-pip install -r requirements.txt
+go mod download
 
 # .env
-ANTHROPIC_API_KEY=...
-MODEL_ID=...
+OPENAI_API_KEY=...
+OPENAI_MODEL=...
 
 # 可选：给 Goal 判断器使用更小的模型
-GOAL_EVALUATOR_MODEL_ID=...
+OPENAI_EVALUATOR_MODEL=...
 ```
 
 进入交互模式：
 
 ```bash
-python s17_goal_loop/code.py
+go run ./s17_goal_loop
 ```
 
 然后输入：
 
 ```text
-/goal python -m pytest 退出码为 0
+/goal go test ./... 退出码为 0
 ```
 
 也可以直接从命令行设置 Goal：
 
 ```bash
-python s17_goal_loop/code.py "/goal python -m pytest 退出码为 0"
+go run ./s17_goal_loop "/goal go test ./... 退出码为 0"
 ```
 
 ## 与 s16 的关系

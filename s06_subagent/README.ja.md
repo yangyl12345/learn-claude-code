@@ -92,14 +92,14 @@ TOOL_HANDLERS = {**BASE_HANDLERS, "task": run_subagent}
 
 ```sh
 cd learn-claude-code
-python s06_subagent/code.py
+go run ./s06_subagent
 ```
 
 以下のプロンプトを試してみよう：
 
 1. `Use a subtask to find what testing framework this project uses`（サブエージェントがファイルを読み、メイン Agent は結論のみ受け取る）
-2. `Delegate: read all .py files in agents/ and summarize what each one does`
-3. `Use a task to create s06_subagent/example/string_tools.py with a slugify(text: str) function, then verify it from the parent agent`
+2. `Delegate: read all .go files in internal/ and summarize what each one does`
+3. `Use a task to create s06_subagent/example/string_tools.go with a slugify(text: str) function, then verify it from the parent agent`
 
 観察のポイント：`[Subagent started]` / `[Subagent done]` が表示されるか？ サブエージェントのツール呼び出しが `[sub] ...` と表示されるか？ 親 Agent は `task` が返した最終テキストだけを受け取るか？
 

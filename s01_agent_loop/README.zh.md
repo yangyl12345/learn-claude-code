@@ -11,7 +11,7 @@
 
 ## 问题
 
-你提出了一个问题给大模型：“帮我读取下我的目录下有哪些文件，并且执行XXX.py”。
+你提出了一个问题给大模型：“帮我读取下我的目录下有哪些文件，并且执行XXX.go”。
 
 模型能输出一条 bash 命令，但输出完了就停了，它不会自己跑，也不会看到结果后继续推理。
 
@@ -124,20 +124,20 @@ def agent_loop(messages):
 **准备**（首次运行）：
 
 ```sh
-pip install -r requirements.txt
+go mod download
 cp .env.example .env
-# 编辑 .env，填入 ANTHROPIC_API_KEY 和 MODEL_ID
+# 编辑 .env，填入 OPENAI_API_KEY 和 OPENAI_MODEL
 ```
 
 **运行**：
 
 ```sh
-python s01_agent_loop/code.py
+go run ./s01_agent_loop
 ```
 
 试试这些 prompt：
 
-1. `Create a file called hello.py that prints "Hello, World!"`
+1. `Create a file called hello.go that prints "Hello, World!"`
 2. `List all Python files in this directory`
 3. `What is the current git branch?`
 

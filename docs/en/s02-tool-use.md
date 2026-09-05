@@ -90,10 +90,10 @@ Add a tool = add a handler + add a schema entry. The loop never changes.
 
 ```sh
 cd learn-claude-code
-python agents/s02_tool_use.py
+go run ./cmd/legacy s02
 ```
 
-1. `Read the file requirements.txt`
-2. `Create a file called greet.py with a greet(name) function`
-3. `Edit greet.py to add a docstring to the function`
-4. `Read greet.py to verify the edit worked`
+1. `Read the file go.mod`
+2. `Create a file called greet.go with a greet(name) function`
+3. `Edit greet.go to add a docstring to the function`
+4. `Read greet.go to verify the edit worked`

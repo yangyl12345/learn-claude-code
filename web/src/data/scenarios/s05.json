@@ -23,7 +23,7 @@
     {
       "type": "tool_call",
       "toolName": "read_file",
-      "content": "{\"path\":\"parser.py\"}",
+      "content": "{\"path\":\"parser.go\"}",
       "annotation": "Normal tools continue through the same dispatch table."
     },
     {

@@ -88,11 +88,11 @@ if rounds_since_todo >= 3 and messages:
 
 ```sh
 cd learn-claude-code
-python agents/s03_todo_write.py
+go run ./cmd/legacy s03
 ```
 
 试试这些 prompt (英文 prompt 对 LLM 效果更好, 也可以用中文):
 
-1. `Refactor the file hello.py: add type hints, docstrings, and a main guard`
-2. `Create a Python package with __init__.py, utils.py, and tests/test_utils.py`
+1. `Refactor the file hello.go: add type hints, docstrings, and a main guard`
+2. `Create a Python package with __init__.go, utils.go, and tests/test_utils.go`
 3. `Review all Python files and fix any style issues`

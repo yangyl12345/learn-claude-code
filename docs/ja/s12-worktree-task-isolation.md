@@ -8,7 +8,7 @@
 
 ## 問題
 
-s11までにエージェントはタスクを自律的に確保して完了できるようになった。しかし全タスクが1つの共有ディレクトリで走る。2つのエージェントが同時に異なるモジュールをリファクタリングすると衝突する: 片方が`config.py`を編集し、もう片方も`config.py`を編集し、未コミットの変更が混ざり合い、どちらもクリーンにロールバックできない。
+s11までにエージェントはタスクを自律的に確保して完了できるようになった。しかし全タスクが1つの共有ディレクトリで走る。2つのエージェントが同時に異なるモジュールをリファクタリングすると衝突する: 片方が`config.go`を編集し、もう片方も`config.go`を編集し、未コミットの変更が混ざり合い、どちらもクリーンにロールバックできない。
 
 タスクボードは*何をやるか*を追跡するが、*どこでやるか*には関知しない。解決策: 各タスクに専用のgit worktreeディレクトリを与える。タスクが目標を管理し、worktreeが実行コンテキストを管理する。タスクIDで紐付ける。
 
@@ -111,7 +111,7 @@ def remove(self, name, force=False, complete_task=False):
 
 ```sh
 cd learn-claude-code
-python agents/s12_worktree_task_isolation.py
+go run ./cmd/legacy s12
 ```
 
 1. `Create tasks for backend auth and frontend login page, then list tasks.`

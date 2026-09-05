@@ -1,5 +1,13 @@
 [English](./README.md) | [中文](./README-zh.md) | [日本語](./README-ja.md)
 
+## Go + OpenAI migration
+
+This repository keeps the original progressive course structure while adding a
+Go implementation backed by the OpenAI Responses API. Run lessons with
+`go run ./sXX_xxx`; shared runtime code lives in `internal/`. It is a migration
+based on the tutorial structure and MIT-licensed content from
+[shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code).
+
 <a href="https://trendshift.io/repositories/19746" target="_blank"><img src="https://trendshift.io/api/badge/repositories/19746" alt="shareAI-lab%2Flearn-claude-code | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
 # Learn Claude Code -- Harness Engineering for Real Agents
@@ -170,8 +178,8 @@ The loop is constant. Tools, knowledge, and permissions change. Agent = Model (L
 This repository currently contains two tutorial tracks:
 
 - **Current track: root-level `s01-s17`**
-  The root-level `s01_*` ... `s17_*` folders are the canonical version. Each chapter contains an English default README, Chinese/Japanese translations, runnable `code.py`, and diagrams where needed.
-- **Legacy transition track: `docs/` and `agents/`**
+  The root-level `s01_*` ... `s17_*` folders are the canonical version. Each chapter contains an English default README, Chinese/Japanese translations, runnable `main.go`, and diagrams where needed.
+- **Legacy transition track: `docs/` and `internal/`**
   These preserve the older 12-lesson version for existing readers and old links during migration.
 
 If you are starting now, read the root-level `s01_agent_loop/` through `s17_goal_loop/` chapters. The legacy and current chapter numbers do not always match, so avoid mixing chapter numbers across tracks.
@@ -331,7 +339,7 @@ s08_context_compact/
   README.md              # English, the default chapter README
   README.zh.md           # Chinese translation
   README.ja.md           # Japanese translation
-  code.py                # standalone runnable implementation
+  main.go                # standalone runnable implementation
   images/                # SVG diagrams (where needed)
 ```
 
@@ -348,20 +356,20 @@ Read from s01 through s17 in order. Some mechanisms build directly on the previo
 ```sh
 git clone https://github.com/shareAI-lab/learn-claude-code
 cd learn-claude-code
-pip install -r requirements.txt
-cp .env.example .env   # configure ANTHROPIC_API_KEY
+go mod download
+cp .env.example .env   # configure OPENAI_API_KEY and OPENAI_MODEL
 
-python s01_agent_loop/code.py        # Start here -- one loop + bash
-python s08_context_compact/code.py   # Context compaction (complex)
-python s17_goal_loop/code.py         # Endpoint: continue until a checkable goal is met
+go run ./s01_agent_loop        # Start here -- one loop + bash
+go run ./s08_context_compact   # Context compaction (complex)
+go run ./s17_goal_loop --demo  # Offline goal-loop demo
 ```
 
 ### Legacy 12-Lesson Track
 
 ```sh
-python agents/s01_agent_loop.py
-python agents/s12_worktree_task_isolation.py
-python agents/s_full.py
+go run ./cmd/legacy s01
+go run ./cmd/legacy s12
+go run ./cmd/legacy full
 ```
 
 ### Web Platform
@@ -382,7 +390,7 @@ learn-claude-code/
     README.md              #   English default (complete narrative)
     README.zh.md           #   Chinese translation
     README.ja.md           #   Japanese translation
-    code.py                #   standalone runnable code
+    main.go                #   standalone runnable code
     images/                #   SVG diagrams
   s02_tool_use/
   ...
@@ -390,7 +398,7 @@ learn-claude-code/
   s15_integrated_harness/
   s16_workflow_runtime/
   s17_goal_loop/           # endpoint chapter
-  agents/                  # legacy 12 runnable copies + s_full.py
+  internal/                  # legacy 12 runnable copies + s_full.go
   skills/                  # skill files used by s07
   docs/                    # legacy 12-lesson docs, kept during transition
   web/                     # generated from the root-level course

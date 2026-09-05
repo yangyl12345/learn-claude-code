@@ -126,13 +126,13 @@ Typical flow when the Agent receives a task: first call `todo_write` to list all
 
 ```sh
 cd learn-claude-code
-python s05_todo_write/code.py
+go run ./s05_todo_write
 ```
 
 Try these prompts:
 
-1. `Refactor s05_todo_write/example/hello.py: add type hints, docstrings, and a main guard` (should list 3 steps first, then execute)
-2. `Create a Python package under s05_todo_write/example/demo_pkg with __init__.py, utils.py, and tests/test_utils.py`
+1. `Refactor s05_todo_write/example/hello.go: add type hints, docstrings, and a main guard` (should list 3 steps first, then execute)
+2. `Create a Python package under s05_todo_write/example/demo_pkg with __init__.go, utils.go, and tests/test_utils.go`
 3. `Review Python files under s05_todo_write/example and fix any style issues`
 
 What to watch for: Was the first tool call `todo_write`? How many TODO steps were listed? Did statuses move from `pending` to `in_progress` / `completed` during execution?

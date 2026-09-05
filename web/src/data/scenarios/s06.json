@@ -22,18 +22,18 @@
     {
       "type": "tool_call",
       "toolName": "read_file",
-      "content": "{\"path\":\"cli.py\"}",
+      "content": "{\"path\":\"cli.go\"}",
       "annotation": "The tool call stays in the subagent's local message list."
     },
     {
       "type": "tool_result",
       "toolName": "task",
-      "content": "Summary: cli.py parses args, selects a command handler, then dispatches.",
+      "content": "Summary: cli.go parses args, selects a command handler, then dispatches.",
       "annotation": "The subagent's final text becomes the parent's task result."
     },
     {
       "type": "assistant_text",
-      "content": "The parser is isolated in cli.py and dispatches by command name. I'll use that summary in the main plan.",
+      "content": "The parser is isolated in cli.go and dispatches by command name. I'll use that summary in the main plan.",
       "annotation": "The parent avoids carrying every exploratory detail."
     }
   ]

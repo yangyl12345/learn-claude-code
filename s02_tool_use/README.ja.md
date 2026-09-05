@@ -11,7 +11,7 @@ s01 → `s02` → [s03](../s03_permission/) → s04 → ... → s16 → s17
 
 ## ツールは bash 一つだけ
 
-s01 の Agent には bash 一つのツールしかない。ファイルを読むには `cat`、書くには `echo "..." > file.py`、編集するには `sed`。
+s01 の Agent には bash 一つのツールしかない。ファイルを読むには `cat`、書くには `echo "..." > file.go`、編集するには `sed`。
 
 モデルは「このファイルを読みたい」と考えながら、`cat path/to/file` と組み立てなければならない。翻訳の層が一つ増え、トークンを無駄にし、エラーも起きやすい。
 
@@ -108,7 +108,7 @@ for block in tool_calls:
 
 ## 複数のツール呼び出し
 
-モデルはよく一度に複数の tool_use を返す — 「a.py と b.py を読んで、全 .py ファイルを列挙して」。
+モデルはよく一度に複数の tool_use を返す — 「a.go と b.go を読んで、全 .go ファイルを列挙して」。
 
 これらの呼び出しは、`response.content` に現れる元の順序で一つずつ実行する。
 
@@ -140,15 +140,15 @@ for block in tool_calls:
 
 ```sh
 cd learn-claude-code
-python s02_tool_use/code.py
+go run ./s02_tool_use
 ```
 
 以下のプロンプトを試してみよう：
 
 1. `Read the file README.md and tell me what this project is about`
-2. `Create a file called test.py that prints "hello", then read it back`
+2. `Create a file called test.go that prints "hello", then read it back`
 3. `Find all Python files in this directory`
-4. `Read both README.md and requirements.txt, then create a summary file`
+4. `Read both README.md and go.mod, then create a summary file`
 
 観察のポイント：モデルがツールを一つだけ呼び出すときと、複数同時に呼び出すときの違い。複数のツール呼び出しは正しい順序で実行されているか？
 

@@ -300,7 +300,7 @@ if compact_requested:
 
 ```bash
 cd learn-claude-code
-python s08_context_compact/code.py
+go run ./s08_context_compact
 ```
 
 ### 実験 1：古い結果を置き換える
@@ -324,7 +324,7 @@ web/src/data/generated/docs.json のデータ構造を調べ、
 ### 実験 3：自動要約を発火させる
 
 ```text
-s08_context_compact/code.py と s09_memory/code.py を比較し、
+s08_context_compact/main.go と s09_memory/main.go を比較し、
 現在のコンテキストと永続メモリの管理方法を説明してください。
 ```
 

@@ -8,7 +8,7 @@
 
 ## 问题
 
-到 s11, Agent 已经能自主认领和完成任务。但所有任务共享一个目录。两个 Agent 同时重构不同模块 -- A 改 `config.py`, B 也改 `config.py`, 未提交的改动互相污染, 谁也没法干净回滚。
+到 s11, Agent 已经能自主认领和完成任务。但所有任务共享一个目录。两个 Agent 同时重构不同模块 -- A 改 `config.go`, B 也改 `config.go`, 未提交的改动互相污染, 谁也没法干净回滚。
 
 任务板管 "做什么" 但不管 "在哪做"。解法: 给每个任务一个独立的 git worktree 目录, 用任务 ID 把两边关联起来。
 
@@ -111,7 +111,7 @@ def remove(self, name, force=False, complete_task=False):
 
 ```sh
 cd learn-claude-code
-python agents/s12_worktree_task_isolation.py
+go run ./cmd/legacy s12
 ```
 
 试试这些 prompt (英文 prompt 对 LLM 效果更好, 也可以用中文):

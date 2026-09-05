@@ -75,7 +75,7 @@ loop 自体は同じ構造のままだ。model を呼び、response に `tool_us
 
 ---
 
-## code.py に含まれるもの
+## main.go に含まれるもの
 
 ### Tools と Dispatch
 
@@ -214,7 +214,7 @@ MCP は external capability を担当する：
 
 ```sh
 cd learn-claude-code
-python s15_integrated_harness/code.py
+go run ./s15_integrated_harness
 ```
 
 試す prompt：

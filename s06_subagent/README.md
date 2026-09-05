@@ -92,14 +92,14 @@ The parent dispatches `task` through the same handler map as its other tools. Th
 
 ```sh
 cd learn-claude-code
-python s06_subagent/code.py
+go run ./s06_subagent
 ```
 
 Try these prompts:
 
 1. `Use a subtask to find what testing framework this project uses` (sub-Agent reads files, main Agent receives only the conclusion)
-2. `Delegate: read all .py files in agents/ and summarize what each one does`
-3. `Use a task to create s06_subagent/example/string_tools.py with a slugify(text: str) function, then verify it from the parent agent`
+2. `Delegate: read all .go files in internal/ and summarize what each one does`
+3. `Use a task to create s06_subagent/example/string_tools.go with a slugify(text: str) function, then verify it from the parent agent`
 
 What to watch for: Do `[Subagent started]` / `[Subagent done]` appear? Do subagent tool calls print as `[sub] ...`? Does the parent continue with only the final text returned by `task`?
 

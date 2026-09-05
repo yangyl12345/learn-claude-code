@@ -99,7 +99,7 @@ def agent_loop(messages: list):
 
 ```sh
 cd learn-claude-code
-python agents/s08_background_tasks.py
+go run ./cmd/legacy s08
 ```
 
 试试这些 prompt (英文 prompt 对 LLM 效果更好, 也可以用中文):

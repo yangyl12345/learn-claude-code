@@ -121,7 +121,7 @@ for job in fired:
 - Agent 进程关闭后，调度线程也会停止；`durable` 只保留任务定义。
 - 重启时只恢复任务，不补跑停机期间错过的时间点。
 - 定时回合运行在队列处理线程中。需要交互确认的工具调用会被拒绝，不会与主终端同时读取输入。
-- 调度线程和队列处理线程只在运行 CLI 时启动，导入 `code.py` 不会启动后台线程。
+- 调度线程和队列处理线程只在运行 CLI 时启动，导入 `main.go` 不会启动后台线程。
 
 需要在 Agent 关闭时仍按时执行任务，应使用系统的 crontab、systemd timer 或其他外部调度服务。
 
@@ -131,7 +131,7 @@ for job in fired:
 
 ```sh
 cd learn-claude-code
-python s12_cron_scheduler/code.py
+go run ./s12_cron_scheduler
 ```
 
 可以依次输入：

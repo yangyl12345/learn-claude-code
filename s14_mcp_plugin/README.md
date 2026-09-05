@@ -10,7 +10,7 @@
 
 ## The Problem
 
-The base tools in earlier chapters are written directly in `code.py`. We could integrate a documentation system and deployment platform by adding `search_docs`, `deploy_status`, and `trigger_deploy`, but every service would require another set of tool definitions, parameter schemas, and call handlers.
+The base tools in earlier chapters are written directly in `main.go`. We could integrate a documentation system and deployment platform by adding `search_docs`, `deploy_status`, and `trigger_deploy`, but every service would require another set of tool definitions, parameter schemas, and call handlers.
 
 MCP separates those responsibilities. A server provides a tool list and invocation endpoint. The harness connects to it, assigns model-facing names, applies permission checks, and gives the discovered tools to the model.
 
@@ -159,7 +159,7 @@ The model can correct its arguments on the next turn without terminating the les
 | Component | s04 | s14 |
 |---|---|---|
 | Base tools | Five fixed tools | Unchanged |
-| Tool source | Definitions in `code.py` | Base tools plus discovered MCP tools |
+| Tool source | Definitions in `main.go` | Base tools plus discovered MCP tools |
 | Tool pool | Fixed `TOOLS` | Built each turn by `assemble_tool_pool()` |
 | External tool names | None | `mcp__{server}__{tool}` |
 | Permission | Shell and path checks | Adds a host-side MCP policy |
@@ -173,7 +173,7 @@ This chapter does not carry Task, Background, Cron, Team, or Worktree. They join
 
 ```sh
 cd learn-claude-code
-python s14_mcp_plugin/code.py
+go run ./s14_mcp_plugin
 ```
 
 Enter:

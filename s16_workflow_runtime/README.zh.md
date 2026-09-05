@@ -231,9 +231,9 @@ s16 不替换主循环，它只是在工具层暴露 `Workflow`，背后启动�
 ## 试一下
 
 ```bash
-python s16_workflow_runtime/code.py          # 主模型和 Workflow 子 agent 都使用真实 API
-python s16_workflow_runtime/code.py demo     # 运行确定性的 review-changes 测试数据并观察事件流
-python s16_workflow_runtime/code.py resume   # 用上次的 runId 续跑，每个 agent() 都命中 journal 缓存
+go run ./s16_workflow_runtime          # 主模型和 Workflow 子 agent 都使用真实 API
+go run ./s16_workflow_runtime demo     # 运行确定性的 review-changes 测试数据并观察事件流
+go run ./s16_workflow_runtime resume   # 用上次的 runId 续跑，每个 agent() 都命中 journal 缓存
 ```
 
 默认命令里，可以先让模型读取改动，再把内容放进 `args.changes` 并运行保存好的 `review-changes` workflow。主模型和 workflow 子 agent 都使用真实 API。`demo` 命令使用固定 runner 数据，便于重复观察生命周期和续跑；续跑命中全部缓存时显示 `agents=0 tokens=0`。

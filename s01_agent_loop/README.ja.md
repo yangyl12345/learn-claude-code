@@ -11,7 +11,7 @@
 
 ## 課題
 
-モデルにこう頼んだとする：「ディレクトリ内のファイル一覧を取得して、XXX.py を実行して」。
+モデルにこう頼んだとする：「ディレクトリ内のファイル一覧を取得して、XXX.go を実行して」。
 
 モデルは bash コマンドを出力できるが、出力が終わると止まってしまう — 自分で実行することも、結果を見て推論を続けることもない。
 
@@ -124,20 +124,20 @@ def agent_loop(messages):
 **準備**（初回のみ）：
 
 ```sh
-pip install -r requirements.txt
+go mod download
 cp .env.example .env
-# .env を編集し、ANTHROPIC_API_KEY と MODEL_ID を入力
+# .env を編集し、OPENAI_API_KEY と OPENAI_MODEL を入力
 ```
 
 **実行**：
 
 ```sh
-python s01_agent_loop/code.py
+go run ./s01_agent_loop
 ```
 
 以下のプロンプトを試してみよう：
 
-1. `Create a file called hello.py that prints "Hello, World!"`
+1. `Create a file called hello.go that prints "Hello, World!"`
 2. `List all Python files in this directory`
 3. `What is the current git branch?`
 

@@ -122,7 +122,7 @@ s07以降、タスクグラフがマルチステップ作業のデフォルト�
 
 ```sh
 cd learn-claude-code
-python agents/s07_task_system.py
+go run ./cmd/legacy s07
 ```
 
 1. `Create 3 tasks: "Setup project", "Write code", "Write tests". Make them depend on each other in order.`

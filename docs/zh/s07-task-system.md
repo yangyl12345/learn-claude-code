@@ -122,7 +122,7 @@ TOOL_HANDLERS = {
 
 ```sh
 cd learn-claude-code
-python agents/s07_task_system.py
+go run ./cmd/legacy s07
 ```
 
 试试这些 prompt (英文 prompt 对 LLM 效果更好, 也可以用中文):

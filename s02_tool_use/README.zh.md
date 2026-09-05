@@ -11,7 +11,7 @@ s01 → `s02` → [s03](../s03_permission/) → s04 → ... → s16 → s17
 
 ## 只有 bash 一个工具
 
-s01 的 Agent 只有一个 bash 工具。读文件要 `cat`，写文件要 `echo "..." > file.py`，改文件要 `sed`。
+s01 的 Agent 只有一个 bash 工具。读文件要 `cat`，写文件要 `echo "..." > file.go`，改文件要 `sed`。
 
 模型想的是"读这个文件"，却要拼出 `cat path/to/file`。多了一层翻译，浪费 token，还容易拼错。
 
@@ -108,7 +108,7 @@ for block in tool_calls:
 
 ## 多个工具调用
 
-模型经常一次返回多个 tool_use："读一下 a.py 和 b.py，然后列出所有 .py 文件"。
+模型经常一次返回多个 tool_use："读一下 a.go 和 b.go，然后列出所有 .go 文件"。
 
 这些调用按照 `response.content` 中的原始顺序逐个执行。
 
@@ -140,15 +140,15 @@ for block in tool_calls:
 
 ```sh
 cd learn-claude-code
-python s02_tool_use/code.py
+go run ./s02_tool_use
 ```
 
 试试这些 prompt：
 
 1. `Read the file README.md and tell me what this project is about`
-2. `Create a file called test.py that prints "hello", then read it back`
+2. `Create a file called test.go that prints "hello", then read it back`
 3. `Find all Python files in this directory`
-4. `Read both README.md and requirements.txt, then create a summary file`
+4. `Read both README.md and go.mod, then create a summary file`
 
 观察重点：模型什么时候只调一个工具，什么时候一次调多个？多个工具调用的顺序和结果是否正确？
 

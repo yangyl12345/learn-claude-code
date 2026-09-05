@@ -107,12 +107,12 @@ def agent_loop(query):
 
 ```sh
 cd learn-claude-code
-python agents/s01_agent_loop.py
+go run ./cmd/legacy s01
 ```
 
 试试这些 prompt (英文 prompt 对 LLM 效果更好, 也可以用中文):
 
-1. `Create a file called hello.py that prints "Hello, World!"`
+1. `Create a file called hello.go that prints "Hello, World!"`
 2. `List all Python files in this directory`
 3. `What is the current git branch?`
 4. `Create a directory called test_output and write 3 files in it`

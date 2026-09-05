@@ -2,6 +2,14 @@
 
 [English](./README.md) | [中文](./README-zh.md) | [日本語](./README-ja.md)
 
+## Go + OpenAI 移行版
+
+元の段階的なコース構成を保ちながら、実行可能な実装を Go に統一し、
+OpenAI Responses API の function calling を利用します。各レッスンは
+`go run ./sXX_xxx`、共通 runtime は `internal/` から実行できます。
+これは [shareAI-lab/learn-claude-code](https://github.com/shareAI-lab/learn-claude-code)
+のチュートリアル構成と MIT ライセンスの内容を Go/OpenAI に移植したものです。
+
 ## Agency はモデルから生まれる。Agent プロダクト = モデル + Harness
 
 コードの話をする前に、一つ明確にしておく。
@@ -234,8 +242,8 @@ def agent_loop(messages):
 このリポジトリには現在、2 つのチュートリアルトラックが共存している：
 
 - **現行トラック：ルート直下の `s01-s17`**
-  ルート直下の `s01_*` から `s17_*` までが新しい正規版であり、現在推奨する読書経路。各セッションには既定の英語 README、中国語/日本語訳、実行可能な `code.py`、必要に応じた図が含まれる。
-- **旧版移行トラック：`docs/`、`agents/`**
+  ルート直下の `s01_*` から `s17_*` までが新しい正規版であり、現在推奨する読書経路。各セッションには既定の英語 README、中国語/日本語訳、実行可能な `main.go`、必要に応じた図が含まれる。
+- **旧版移行トラック：`docs/`、`internal/`**
   これらは旧 12 セッション版を保持している。既存読者と旧リンクのために移行期間中は一時的に残している。
 
 新しく読む場合は、ルート直下の `s01_agent_loop/` から `s17_goal_loop/` までを読む。旧版と現行版のセッション番号は常に一致しないため、番号を混同しないこと。
@@ -269,20 +277,20 @@ def agent_loop(messages):
 ```sh
 git clone https://github.com/shareAI-lab/learn-claude-code
 cd learn-claude-code
-pip install -r requirements.txt
-cp .env.example .env   # .env を編集して ANTHROPIC_API_KEY を入力
+go mod download
+cp .env.example .env   # .env を編集して OPENAI_API_KEY を入力
 
-python s01_agent_loop/code.py        # ここから開始 — 1ループ + bash
-python s08_context_compact/code.py    # コンテキスト圧縮（複雑章）
-python s17_goal_loop/code.py          # 終点: 目標でループを閉じる
+go run ./s01_agent_loop        # ここから開始 — 1ループ + bash
+go run ./s08_context_compact    # コンテキスト圧縮（複雑章）
+go run ./s17_goal_loop          # 終点: 目標でループを閉じる
 ```
 
 ### 旧 12 セッション移行版
 
 ```sh
-python agents/s01_agent_loop.py
-python agents/s12_worktree_task_isolation.py
-python agents/s_full.py
+go run ./cmd/legacy s01
+go run ./cmd/legacy s12
+go run ./cmd/legacy full
 ```
 
 ### Web プラットフォーム
@@ -377,7 +385,7 @@ learn-claude-code/
     README.md              #   既定の英語文書（完全なナラティブ）
     README.zh.md           #   中国語訳
     README.ja.md           #   日本語訳
-    code.py                #   単体実行可能なコード
+    main.go                #   単体実行可能なコード
     images/                #   SVG ダイアグラム
   s02_tool_use/
   ...
@@ -385,7 +393,7 @@ learn-claude-code/
   s15_integrated_harness/
   s16_workflow_runtime/
   s17_goal_loop/           # 終点セッション
-  agents/                  # 旧 12 セッションの実行可能コピー + s_full.py
+  internal/                  # 旧 12 セッションの実行可能コピー + s_full.go
   skills/                  # s07 で使用するスキルファイル
   docs/                    # 旧 12 セッション文書、移行期間中は保持
   web/                     # ルート直下のコースから生成

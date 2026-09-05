@@ -120,7 +120,7 @@ def load(self, name: str) -> str:
 
 ```sh
 cd learn-claude-code
-python s07_skill_loading/code.py
+go run ./s07_skill_loading
 ```
 
 Try these prompts:

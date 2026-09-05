@@ -108,7 +108,7 @@ without modifying test files outside tests/auth
 If you need to bound unattended work, use the main loop's global turn limit instead of hiding a fixed budget inside Goal:
 
 ```bash
-MAX_TURNS=20 python s17_goal_loop/code.py \
+MAX_TURNS=20 go run ./s17_goal_loop \
   "/goal fix the type errors until npm run typecheck exits 0"
 ```
 
@@ -194,32 +194,32 @@ return SessionResult(text=text, status=decision.action)
 Install dependencies and prepare `.env`:
 
 ```bash
-pip install -r requirements.txt
+go mod download
 
 # .env
-ANTHROPIC_API_KEY=...
-MODEL_ID=...
+OPENAI_API_KEY=...
+OPENAI_MODEL=...
 
 # Optional: use a smaller model for Goal evaluation
-GOAL_EVALUATOR_MODEL_ID=...
+OPENAI_EVALUATOR_MODEL=...
 ```
 
 Start the interactive session:
 
 ```bash
-python s17_goal_loop/code.py
+go run ./s17_goal_loop
 ```
 
 Then enter:
 
 ```text
-/goal python -m pytest exits with code 0
+/goal go test ./... exits with code 0
 ```
 
 You can also set a Goal directly from the command line:
 
 ```bash
-python s17_goal_loop/code.py "/goal python -m pytest exits with code 0"
+go run ./s17_goal_loop "/goal go test ./... exits with code 0"
 ```
 
 ## Relationship to s16

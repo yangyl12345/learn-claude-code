@@ -143,7 +143,7 @@ for block in tool_calls:
 
 ```sh
 cd learn-claude-code
-python s03_permission/code.py
+go run ./s03_permission
 ```
 
 Try these prompts:

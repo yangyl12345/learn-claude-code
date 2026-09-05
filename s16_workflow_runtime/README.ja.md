@@ -231,9 +231,9 @@ s16 は main loop を置き換えません。tool layer に `Workflow` を公開
 ## 試してみる
 
 ```bash
-python s16_workflow_runtime/code.py          # main model と Workflow agent の両方が real API を使う
-python s16_workflow_runtime/code.py demo     # deterministic fixture と event stream を確認
-python s16_workflow_runtime/code.py resume   # 前回の runId から resume。すべての agent() が journal cache に当たる
+go run ./s16_workflow_runtime          # main model と Workflow agent の両方が real API を使う
+go run ./s16_workflow_runtime demo     # deterministic fixture と event stream を確認
+go run ./s16_workflow_runtime resume   # 前回の runId から resume。すべての agent() が journal cache に当たる
 ```
 
 default command では、model に changes を読ませ、その text を `args.changes` に入れて保存済み `review-changes` workflow を実行させます。main model と workflow agent の両方が real API を使います。`demo` は固定 runner data で lifecycle と resume を繰り返し観察でき、すべて cache hit した resume は `agents=0 tokens=0` と表示されます。

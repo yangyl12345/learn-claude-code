@@ -10,7 +10,7 @@
 
 ## 问题
 
-前面的基础工具都直接写在 `code.py` 里。接入文档系统和部署平台时，我们还可以继续手写 `search_docs`、`deploy_status` 和 `trigger_deploy`，但每增加一个服务，都要重新维护工具定义、参数格式和调用代码。
+前面的基础工具都直接写在 `main.go` 里。接入文档系统和部署平台时，我们还可以继续手写 `search_docs`、`deploy_status` 和 `trigger_deploy`，但每增加一个服务，都要重新维护工具定义、参数格式和调用代码。
 
 MCP 把这部分拆成两个角色：server 提供工具列表和调用入口，Harness 负责连接、命名、权限检查，并把发现的工具交给模型。
 
@@ -159,7 +159,7 @@ MCP error: TypeError: <lambda>() missing 1 required argument: 'query'
 | 组件 | s04 | s14 |
 |---|---|---|
 | 基础工具 | 五个固定工具 | 保持不变 |
-| 工具来源 | `code.py` 中的定义 | 基础工具加动态发现的 MCP 工具 |
+| 工具来源 | `main.go` 中的定义 | 基础工具加动态发现的 MCP 工具 |
 | 工具池 | 固定 `TOOLS` | 每轮由 `assemble_tool_pool()` 组装 |
 | 外部工具名 | 无 | `mcp__{server}__{tool}` |
 | 权限 | Shell 和路径检查 | 增加宿主侧 MCP 策略 |
@@ -173,7 +173,7 @@ MCP error: TypeError: <lambda>() missing 1 required argument: 'query'
 
 ```sh
 cd learn-claude-code
-python s14_mcp_plugin/code.py
+go run ./s14_mcp_plugin
 ```
 
 输入：

@@ -75,7 +75,7 @@ S15 不再引入新机制，而是把前面各章的组件集成到同一个 har
 
 ---
 
-## code.py 包含什么
+## main.go 包含什么
 
 ### 工具与分发
 
@@ -214,7 +214,7 @@ MCP 负责外部能力：
 
 ```sh
 cd learn-claude-code
-python s15_integrated_harness/code.py
+go run ./s15_integrated_harness
 ```
 
 可以试：

@@ -126,13 +126,13 @@ Agent 收到任务后的典型流程：先调 `todo_write` 列出所有步骤（
 
 ```sh
 cd learn-claude-code
-python s05_todo_write/code.py
+go run ./s05_todo_write
 ```
 
 试试这些 prompt：
 
-1. `Refactor s05_todo_write/example/hello.py: add type hints, docstrings, and a main guard`（先列 3 步再执行）
-2. `Create a Python package under s05_todo_write/example/demo_pkg with __init__.py, utils.py, and tests/test_utils.py`
+1. `Refactor s05_todo_write/example/hello.go: add type hints, docstrings, and a main guard`（先列 3 步再执行）
+2. `Create a Python package under s05_todo_write/example/demo_pkg with __init__.go, utils.go, and tests/test_utils.go`
 3. `Review Python files under s05_todo_write/example and fix any style issues`
 
 观察重点：第一次工具调用是不是 `todo_write`？TODO 列了几步？执行过程中状态有没有从 `pending` 变成 `in_progress` / `completed`？

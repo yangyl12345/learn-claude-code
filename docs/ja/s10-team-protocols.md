@@ -96,7 +96,7 @@ def handle_plan_review(request_id, approve, feedback=""):
 
 ```sh
 cd learn-claude-code
-python agents/s10_team_protocols.py
+go run ./cmd/legacy s10
 ```
 
 1. `Spawn alice as a coder. Then request her shutdown.`
