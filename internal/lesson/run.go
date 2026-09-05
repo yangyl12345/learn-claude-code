@@ -43,13 +43,16 @@ func Run(ctx context.Context, id string, args []string, out io.Writer) error {
 		return demoMCP(ctx, out)
 	}
 	if id == "s16" {
-		return demoWorkflow(out)
+		return demoWorkflow(out, args)
 	}
 	if id == "s15" {
 		fmt.Fprintln(out, "s15 integrated harness: memory + skills + tasks + teams + cron + background + MCP + hooks")
 	}
 	if id == "s17" && len(args) > 0 && args[0] == "--demo" {
 		return demoGoal(ctx, out)
+	}
+	if id == "s17" {
+		return runGoal(ctx, args, out)
 	}
 	config, err := ai.LoadConfig()
 	if err != nil {
@@ -153,20 +156,96 @@ func demoMCP(ctx context.Context, out io.Writer) error {
 	fmt.Fprintf(out, "s14 MCP: %s => %s\n", names[0], v)
 	return nil
 }
-func demoWorkflow(out io.Writer) error {
-	dir, err := os.MkdirTemp("", "lesson-workflow-")
-	if err != nil {
+func demoWorkflow(out io.Writer, args []string) error {
+	dir := filepath.Join(".runtime", "workflow")
+	if err := os.MkdirAll(dir, 0o755); err != nil {
 		return err
 	}
-	defer os.RemoveAll(dir)
+	if len(args) > 0 && args[0] == "resume" {
+		if len(args) < 2 || strings.TrimSpace(args[1]) == "" {
+			return errors.New("resume requires a run id")
+		}
+		state, err := workflow.NewRunner(dir).Resume(args[1])
+		if err != nil {
+			return err
+		}
+		b, _ := json.Marshal(state)
+		fmt.Fprintf(out, "s16 workflow resumed: %s\n", b)
+		return nil
+	}
 	r := workflow.NewRunner(dir)
-	state, err := r.Execute("demo", "run_demo", []workflow.Step{{Name: "agent", Run: func() (any, error) { return map[string]string{"status": "ok"}, nil }}, {Name: "parallel", Run: func() (any, error) { return 2, nil }}})
+	id := fmt.Sprintf("run_%d", time.Now().UnixNano())
+	state, err := r.Execute("demo", id, []workflow.Step{{Name: "agent", Run: func() (any, error) { return map[string]string{"status": "ok"}, nil }}, {Name: "parallel", Run: func() (any, error) { return 2, nil }}})
 	if err != nil {
 		return err
 	}
 	b, _ := json.Marshal(state)
-	fmt.Fprintf(out, "s16 workflow: %s\n", b)
+	fmt.Fprintf(out, "s16 workflow: %s\nresume with: go run ./s16_workflow_runtime resume %s\n", b, id)
 	return nil
+}
+
+// runGoal 将主模型与无工具 evaluator 串接在同一个用户请求中。
+// 主模型每次停止后，evaluator 只读取已记录的对话；若目标未完成，
+// 原因会作为新的用户提示回到 loop。这样“模型想停”和“目标已完成”不会混为一谈。
+func runGoal(ctx context.Context, args []string, out io.Writer) error {
+	config, err := ai.LoadConfig()
+	if err != nil {
+		return err
+	}
+	client, err := ai.NewOpenAIClient()
+	if err != nil {
+		return err
+	}
+	registry, _, err := tools.NewFullRegistry(".")
+	if err != nil {
+		return err
+	}
+	controller := goal.NewController(goal.ModelEvaluator{Client: client, Model: config.EvaluatorModel}, 3, 20)
+	prompt := strings.TrimSpace(strings.Join(args, " "))
+	if strings.HasPrefix(prompt, "/goal ") {
+		condition := strings.TrimSpace(strings.TrimPrefix(prompt, "/goal "))
+		if err := controller.Set(condition); err != nil {
+			return err
+		}
+		prompt = "请开始工作，并持续执行工具直到满足目标：" + condition
+	}
+	if prompt == "" {
+		prompt = "请说明当前任务状态。"
+	}
+	for attempts := 0; attempts < 20; attempts++ {
+		loop := &agent.Loop{Client: client, Tools: registry, Config: agent.Config{WorkDir: ".", Model: config.Model, MaxTurns: 20, MaxTokens: 8000, Output: out}}
+		result, err := loop.Run(ctx, prompt)
+		if err != nil {
+			return err
+		}
+		decision, evaluation, err := controller.Evaluate(ctx, inputTranscript(result.History))
+		if err != nil {
+			return err
+		}
+		if decision == "allow" {
+			fmt.Fprintln(out, result.Text)
+			return nil
+		}
+		if decision == "impossible" {
+			return fmt.Errorf("goal cannot continue: %s", evaluation.Reason)
+		}
+		prompt = "Goal evaluator says the goal is not complete: " + evaluation.Reason + "\nContinue from the previous response. Do not repeat completed work."
+	}
+	return errors.New("goal loop reached its continuation limit")
+}
+
+func inputTranscript(history []ai.InputItem) string {
+	var lines []string
+	for _, item := range history {
+		var value any
+		if json.Unmarshal(item, &value) == nil {
+			b, _ := json.Marshal(value)
+			lines = append(lines, string(b))
+		} else {
+			lines = append(lines, string(item))
+		}
+	}
+	return strings.Join(lines, "\n")
 }
 
 type demoEvaluator struct{}
